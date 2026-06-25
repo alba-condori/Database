@@ -105,3 +105,45 @@ plt.savefig("grafico_tortas.png", dpi=300)
 plt.close()
 print("Grafico de tortas guardado exitosamente")
 
+#-----------------------Actividad-9--------------------------
+
+# Reutilizamos nuestro filtro_avanzado y le sumamos una condición más
+condicion_extra = df['restaurant_rating'] > 4
+ 
+# Todo en una sola instrucción con .loc[]
+resultado = df.loc[
+    filtro_avanzado & condicion_extra,
+
+    ['user_preferred_cuisine', 'restaurant_rating', 'restaurant_name']
+]
+ 
+print(resultado)
+print(f'\nFilas seleccionadas: {len(resultado)}')
+
+#-----------------------Actividad-10--------------------------
+#terminar (remplazar las cosas y ENTENDER)
+
+# Paso 1: diagnóstico
+print('Nulos por columna:')
+print(df.isnull().sum())
+ 
+# Paso 2: introducir nulos si no hay (para practicar)
+df_con_nulos = df.copy()
+df_con_nulos.loc[[0, 3, 7], 'columna_numerica'] = None
+ 
+# Paso 3: confirmar
+print('\nNulos después de modificar:')
+print(df_con_nulos.isnull().sum())
+ 
+# Paso 4a: eliminar filas con nulos
+df_sin_nulos = df_con_nulos.dropna()
+ 
+# Paso 4b: reemplazar nulos con la media
+media = df_con_nulos['columna_numerica'].mean()
+df_rellenado = df_con_nulos.fillna({'columna_numerica': round(media, 2)})
+ 
+# Paso 5: comparar
+print(f'\nOriginal:   {len(df_con_nulos)} filas')
+print(f'Con dropna: {len(df_sin_nulos)} filas  (se eliminaron filas)')
+print(f'Con fillna: {len(df_rellenado)} filas  (se rellenaron los huecos)')
+
