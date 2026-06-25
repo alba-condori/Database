@@ -52,7 +52,56 @@ else:
     print("Restaurante Promedio")
 
 
+#--------------------------------------------
+# GRAFICO 1: Grafico de Barras (con Seaborn)
+#--------------------------------------------
+
+print("\n Generando Grafico de Barras ")
+sns.set_theme(style="whitegrid") # Configura el estilo de la grilla a blanca
+
+plt.figure(figsize=(9,5))
+
+sns.barplot(data=df,
+            x="day_of_week",
+            y="restaurant_avg_orders_per_day",
+            estimator=sum,
+            errorbar=None,
+            palette="Blues_d")
+
+plt.title("Promedio de ordenes por dia en restaurantes", fontsize=14)
+    
+plt.xlabel("day_of_week", fontsize=11)
+plt.ylabel("restaurant_avg_orders_per_day", fontsize=11)
+
+plt.tight_layout()
+plt.xticks(rotation=25, fontsize=6) #Rota y cambia el tamaño de los nombres de titulos de cada elemento representado
+plt.savefig("grafico_barras.png", dpi=300)
+plt.close()
+print("Grafico de barras guardado exitosamente")
 
 
 
+#--------------------------------------------
+# GRAFICO 2: Grafico de Tortas (con Seaborn)
+#--------------------------------------------
+
+print("\n Generando grafico de torta")
+
+datos_torta=(df.groupby("delivery_zone")["restaurant_delivery_time_avg"].sum().nlargest(5))
+
+plt.figure(figsize=(7,7))
+plt.pie(
+    datos_torta,
+    labels=datos_torta.index,
+    autopct="%1.1f%%",
+    colors=sns.color_palette("Set2")[0:5],
+    startangle=140,
+    wedgeprops={'edgecolor':'white','linewidth':2}
+)
+
+plt.title("Delivery", fontsize=14)
+plt.tight_layout()
+plt.savefig("grafico_tortas.png", dpi=300)
+plt.close()
+print("Grafico de tortas guardado exitosamente")
 
